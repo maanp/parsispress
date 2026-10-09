@@ -51,7 +51,7 @@ const sections: LegalSection[] = [
   {
     heading: "External links and contact",
     paragraphs: [
-      "Where the site links out, it does so for context and ParsisPress is not responsible for third-party content or practices. Questions about these terms can be sent to the contact address listed on this page, which is a placeholder that should be updated before launch.",
+      "Where the site links out, it does so for context and ParsisPress is not responsible for third-party content or practices. Questions about these terms can be sent to the contact address listed on this page.",
     ],
   },
 ];

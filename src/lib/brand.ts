@@ -31,3 +31,9 @@ export const siteName = "ParsisPress";
 export const tagline = "Find the next big thing. Before everyone else.";
 export const description =
   "ParsisPress turns emerging market signals, overlooked customer problems, and new technologies into startup opportunities worth exploring.";
+
+/**
+ * Public contact address, used by the footer and the legal pages. Change it
+ * here rather than in components — it appears in several places.
+ */
+export const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() || "contact@parsispress.com";

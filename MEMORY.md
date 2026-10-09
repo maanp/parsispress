@@ -119,5 +119,7 @@ route. `favicon.ico` is a PNG wrapped in an ICO container.
 Verified against a local static server served from a sub-path: 0 layout
 overflows across 26 viewports, all interactions working.
 
-Placeholders to fix before public launch: `hello@parsispress.com` in the
-footer and legal pages, and `/terms` which needs legal review.
+Placeholders to fix before public launch: `/terms` needs legal review. The
+contact address is centralised in `src/lib/brand.ts` as `contactEmail`
+(default `contact@parsispress.com`, overridable via
+`NEXT_PUBLIC_CONTACT_EMAIL`).

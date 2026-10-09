@@ -105,7 +105,12 @@ common cause of missing CSS.
 
 To force a root layout regardless of the remote: `npm run build:root`.
 
+### Contact address
+
+The public contact address lives in `src/lib/brand.ts` as `contactEmail` and is
+used by the footer and both legal pages. Override it at build time with
+`NEXT_PUBLIC_CONTACT_EMAIL`; it defaults to `contact@parsispress.com`.
+
 ### Before launching publicly
 
-`hello@parsispress.com` in the footer and legal pages is a placeholder, and
-`/terms` is explicitly marked as requiring legal review. Update both first.
+`/terms` is explicitly marked as requiring legal review.

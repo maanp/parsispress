@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
+import { contactEmail } from "@/lib/brand";
 
 
 export type LegalSection = {
@@ -84,19 +85,18 @@ export function LegalPage({
 
           <div className="mt-12 border-t border-line pt-6">
             <p className="text-[0.92rem] leading-relaxed text-muted">
-              Questions about this page should go to{" "}
+              Questions about this page can go to{" "}
               <a
-                href="mailto:hello@parsispress.com"
+                href={`mailto:${contactEmail}`}
                 className="inline-block underline-link text-forest"
               >
-                hello@parsispress.com
+                {contactEmail}
               </a>
-              , a placeholder address that should be updated before launch. See
-              also the{" "}
+              . See also the{" "}
               <Link href="/about" className="inline-block underline-link text-forest">
                 about page
               </Link>{" "}
-              for how this demonstration build handles data.
+              for how this build handles data.
             </p>
           </div>
         </div>

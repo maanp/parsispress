@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { navLinks } from "./SiteHeader";
 import { Wordmark } from "./Wordmark";
+import { contactEmail } from "@/lib/brand";
 
 const productLinks = [
   { href: "/ideas", label: "Opportunity explorer" },
@@ -72,15 +73,16 @@ export function SiteFooter() {
           <div className="md:col-span-3">
             <h2 className="label-editorial text-muted-2">Contact</h2>
             <p className="mt-4 text-[0.92rem] leading-relaxed text-ink-70">
+              Questions, feedback, or an opportunity you think we should look
+              at — all welcome.
+            </p>
+            <p className="mt-3 text-[0.92rem] leading-relaxed">
               <a
-                href="mailto:hello@parsispress.com"
+                href={`mailto:${contactEmail}`}
                 className="inline-block py-1 underline-link transition-colors hover:text-forest"
               >
-                hello@parsispress.com
+                {contactEmail}
               </a>
-            </p>
-            <p className="mt-3 text-[0.78rem] leading-relaxed text-muted-2">
-              Placeholder address. Replace with your live inbox before launch.
             </p>
             <div className="mt-6 border-t border-line pt-5">
               <p className="label-editorial text-muted-2">Legal</p>
