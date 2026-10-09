@@ -48,15 +48,28 @@ jobs:
         run: |
           test -f out/index.html
           test -f out/404.html
-          test -f out/.nojekyll
-          # Every page must reference a stylesheet that actually exists.
-          css_path=$(grep -o 'href="[^"]*\.css"' out/index.html | head -1 | sed 's/href="//;s/"//')
-          test -f "out/${css_path#/}" || {
-            echo "Stylesheet referenced but missing: $css_path";
-            echo "If this site is served from a sub-path, set NEXT_PUBLIC_BASE_PATH.";
+
+          # .nojekyll is a dotfile. Without it Jekyll discards _next/, which
+          # renders the whole site unstyled. Assert it is present rather than
+          # discovering the problem in a browser.
+          test -f out/.nojekyll || {
+            echo "::error::out/.nojekyll is missing — Jekyll would strip _next/";
             exit 1;
           }
-          echo "stylesheet ok: $css_path"
+
+          # Every page must reference a stylesheet that exists in the export.
+          # The href includes the deployment base path (e.g. /repo/_next/...),
+          # which is not a directory inside out/ — strip it before checking.
+          base=$(grep '^NEXT_PUBLIC_BASE_PATH=' .env.local | cut -d= -f2-)
+          css_path=$(grep -o 'href="[^"]*\.css"' out/index.html | head -1 | sed 's/href="//;s/"//')
+          css_rel=${css_path#"$base"}
+          test -f "out${css_rel}" || {
+            echo "::error::Stylesheet referenced but not exported: $css_path";
+            echo "Looked for: out${css_rel}";
+            echo "A sub-path deployment needs NEXT_PUBLIC_BASE_PATH to match where Pages serves the site.";
+            exit 1;
+          }
+          echo "verified: .nojekyll present, stylesheet at $css_path"
 
       - uses: actions/configure-pages@v5
 
