@@ -90,17 +90,34 @@ legal review.
 ## Deployment
 
 Static export (`output: "export"`, `trailingSlash: true`, `distDir: out`).
-`.github/workflows/deploy.yml` publishes to GitHub Pages via the official
-Pages actions. Two optional repo variables:
 
-- `NEXT_PUBLIC_BASE_PATH` — `/repo` for a project site, empty for root
-- `NEXT_PUBLIC_SITE_URL` — canonical origin, defaults to parsispress.com
+**The key constraint:** GitHub Pages does no URL rewriting. A project site
+served from `/<repo>/` 404s on every `/_next/*.css` unless the build bakes in
+the path, which is why the site appeared unstyled.
 
-Both were verified against a local static server in root and sub-path layouts.
+`scripts/prepare-deploy.mjs` runs before every `next build` (wired into the
+`build` npm script). It reads the git remote and writes `.env.local` with the
+detected `NEXT_PUBLIC_BASE_PATH` and `NEXT_PUBLIC_SITE_URL`, so no manual
+configuration is needed. `.env.local` is gitignored and regenerated each build.
+
+- `github.com/you/repo` → base path `/repo`
+- `github.com/you.github.io` → base path `""` (root)
+- `NEXT_PUBLIC_BASE_PATH` env var overrides detection
+- `npm run build:root` forces a root layout
+
+`.github/workflows/deploy.yml` builds and deploys via the official Pages
+actions, with a post-build check that fails loudly if the referenced
+stylesheet does not exist in `out/`.
+
+**Second most common cause of unstyled output:** `.nojekyll` is a dotfile and
+GitHub's web uploader hides it by default. Without it Jekyll strips `_next/`.
 
 Icons are static files (`icon.svg`, `apple-icon.png`, `favicon.ico`,
 `opengraph-image.png`) because static export cannot run the ImageResponse
 route. `favicon.ico` is a PNG wrapped in an ICO container.
+
+Verified against a local static server served from a sub-path: 0 layout
+overflows across 26 viewports, all interactions working.
 
 Placeholders to fix before public launch: `hello@parsispress.com` in the
 footer and legal pages, and `/terms` which needs legal review.

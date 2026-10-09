@@ -62,41 +62,48 @@ into the URL (`?industry=`, `?view=saved`) so back/forward navigation works.
 
 ## Deploying to GitHub Pages
 
-The build is a fully static export, so `.github/workflows/deploy.yml` publishes
-it with the official Pages actions. Enable Pages for the repo first:
-**Settings → Pages → Source: GitHub Actions**.
+The build is a fully static export to `out/`. GitHub Pages does no URL
+rewriting, so a project site (`user.github.io/repo/`) needs the path baked into
+every asset URL. `scripts/prepare-deploy.mjs` reads it from the git remote on
+each build and writes `.env.local`:
 
-### User or organisation site (served from the domain root)
+| Remote | Detected base path |
+| --- | --- |
+| `github.com/you/repo` | `/repo` |
+| `github.com/you.github.io` | `` (root) |
 
-Push to `main`. Set no repository variables — the defaults target
-`https://parsispress.com`.
+You do not need to configure this. `npm run build` handles it.
 
-### Project site (served from `/<repo>`)
+### Automatic deploys (recommended)
 
-Add two repository variables under **Settings → Secrets and variables → Actions
-→ Variables**:
+Push to `main`. `.github/workflows/deploy.yml` builds and publishes with the
+official Pages actions. Enable it once under **Settings → Pages → Source:
+GitHub Actions**.
+
+Optional repository variables (**Settings → Secrets and variables → Actions →
+Variables**) override the detected values — useful only for a custom domain:
 
 | Variable | Value |
 | --- | --- |
-| `NEXT_PUBLIC_BASE_PATH` | `/your-repo-name` (no trailing slash) |
-| `NEXT_PUBLIC_SITE_URL` | `https://your-username.github.io` |
+| `NEXT_PUBLIC_BASE_PATH` | e.g. `/repo`, or empty for root |
+| `NEXT_PUBLIC_SITE_URL` | e.g. `https://parsispress.com` |
 
-These are read at build time and baked into every asset URL, canonical link,
-Open Graph tag, and sitemap entry. Both are verified against a local static
-server for root and sub-path layouts.
-
-### Pointing at a custom domain
-
-Change `NEXT_PUBLIC_SITE_URL` to your domain and add a `CNAME` file in
-`public/` if you want GitHub to keep serving it after a custom domain is
-configured. `src/lib/brand.ts` defaults to `https://parsispress.com`.
-
-### Manual deploy
+### Manual upload
 
 ```bash
+git remote add origin https://github.com/YOU/REPO.git   # once
 npm run build
-# then push the contents of out/ to the gh-pages branch
 ```
+
+Then upload the **contents** of `out/` (not the folder itself) to the repo
+branch Pages is configured to serve.
+
+If you upload through the GitHub web interface, tick **"Show hidden files"** —
+`.nojekyll` starts with a dot and is skipped otherwise. Without it, Jekyll
+strips `_next/` and the site renders unstyled. That file is the second, most
+common cause of missing CSS.
+
+To force a root layout regardless of the remote: `npm run build:root`.
 
 ### Before launching publicly
 

@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "node scripts/prepare-deploy.mjs && next build",
+    "build:root": "node scripts/build-root.mjs",
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit"

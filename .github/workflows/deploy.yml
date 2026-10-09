@@ -29,19 +29,34 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build static site
-        env:
-          # Set NEXT_PUBLIC_BASE_PATH=/<repo> for a project site, or leave empty
-          # for a user/organisation site served from the domain root.
-          NEXT_PUBLIC_BASE_PATH: ${{ vars.NEXT_PUBLIC_BASE_PATH || '' }}
-          NEXT_PUBLIC_SITE_URL: ${{ vars.NEXT_PUBLIC_SITE_URL || 'https://parsispress.com' }}
-        run: npm run build
+      - name: Give the checkout a usable git identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Verify the export contains an index per route
+      # `npm run build` runs scripts/prepare-deploy.mjs, which derives the
+      # deployment path and site URL from the origin remote. The vars below are
+      # optional overrides for cases the remote cannot express, such as a
+      # custom domain.
+      - name: Build static site
+        run: npm run build
+        env:
+          NEXT_PUBLIC_BASE_PATH: ${{ vars.NEXT_PUBLIC_BASE_PATH }}
+          NEXT_PUBLIC_SITE_URL: ${{ vars.NEXT_PUBLIC_SITE_URL }}
+
+      - name: Verify the export is complete
         run: |
           test -f out/index.html
           test -f out/404.html
           test -f out/.nojekyll
+          # Every page must reference a stylesheet that actually exists.
+          css_path=$(grep -o 'href="[^"]*\.css"' out/index.html | head -1 | sed 's/href="//;s/"//')
+          test -f "out/${css_path#/}" || {
+            echo "Stylesheet referenced but missing: $css_path";
+            echo "If this site is served from a sub-path, set NEXT_PUBLIC_BASE_PATH.";
+            exit 1;
+          }
+          echo "stylesheet ok: $css_path"
 
       - uses: actions/configure-pages@v5
 
