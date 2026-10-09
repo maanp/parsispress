@@ -69,7 +69,17 @@ jobs:
             echo "A sub-path deployment needs NEXT_PUBLIC_BASE_PATH to match where Pages serves the site.";
             exit 1;
           }
+
+          # When a custom domain is declared, Pages serves the site from the
+          # domain root. A non-empty base path there means every asset 404s.
+          if [ -f public/CNAME ] && [ -n "$base" ]; then
+            echo "::error::public/CNAME declares a custom domain but base path is '$base'.";
+            echo "A custom domain is served from the root; the build must use an empty base path.";
+            exit 1;
+          fi
+
           echo "verified: .nojekyll present, stylesheet at $css_path"
+          echo "serving at: $(cat .env.local | grep NEXT_PUBLIC_SITE_URL | cut -d= -f2-)${base}/"
 
       - uses: actions/configure-pages@v5
 
