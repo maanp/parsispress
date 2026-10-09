@@ -31,11 +31,6 @@ export function SiteFooter() {
               technologies into structured startup opportunities worth
               researching.
             </p>
-            <p className="mt-5 max-w-sm text-[0.78rem] leading-relaxed text-muted-2">
-              This site is a frontend demonstration. All opportunities, scores,
-              and articles are illustrative sample content and are not verified
-              market research.
-            </p>
           </div>
 
           <nav aria-label="Platform" className="md:col-span-2">
