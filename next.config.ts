@@ -4,8 +4,10 @@ import type { NextConfig } from "next";
  * GitHub Pages serves project sites from a sub-path (/<repo>/) while user and
  * organisation sites are served from the root. Set NEXT_PUBLIC_BASE_PATH=""
  * for a root deployment and to "/<repo>" for a project deployment.
+ *
+ * scripts/prepare-deploy.mjs derives this from the git remote on every build.
  */
-const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH?.trim() ?? "";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,

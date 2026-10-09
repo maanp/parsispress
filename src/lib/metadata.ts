@@ -5,7 +5,8 @@ import type { Metadata } from "next";
  * absolute URL in metadata has to carry the prefix itself when deploying to a
  * project site at /<repo>.
  */
-export const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+/** Trimmed so an unset (empty-string) variable behaves as "no prefix". */
+export const basePath = process.env.NEXT_PUBLIC_BASE_PATH?.trim() ?? "";
 
 /** Canonical URL for a route, e.g. canonical("/ideas") -> ".../ideas/". */
 export function canonical(route = ""): string {
