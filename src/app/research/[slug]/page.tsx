@@ -6,7 +6,7 @@ import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { DemoNotice } from "@/components/EmptyState";
 import { articleBySlug, articles } from "@/lib/articles";
-import { siteName, siteUrl } from "@/lib/brand";
+import { pageMetadata } from "@/lib/metadata";
 import { formatArticleDate } from "@/components/ResearchCard";
 
 type Params = { params: Promise<{ slug: string }> };
@@ -19,25 +19,12 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { slug } = await params;
   const article = articleBySlug.get(slug);
   if (!article) return { title: "Article not found" };
-  return {
+  return pageMetadata({
     title: article.title,
     description: article.dek,
-    alternates: { canonical: `/research/${article.slug}` },
-    openGraph: {
-      title: `${article.title} — ${siteName}`,
-      description: article.dek,
-      url: `${siteUrl}/research/${article.slug}`,
-      type: "article",
-      siteName,
-      images: ["/opengraph-image"],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: `${article.title} — ${siteName}`,
-      description: article.dek,
-      images: ["/opengraph-image"],
-    },
-  };
+    route: `research/${article.slug}`,
+    type: "article",
+  });
 }
 
 export default async function ArticlePage({ params }: Params) {

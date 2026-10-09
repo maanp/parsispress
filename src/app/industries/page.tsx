@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { canonical } from "@/lib/metadata";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { SiteHeader } from "@/components/SiteHeader";
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
   title: "Industries",
   description:
     "A directory of seven industry categories ParsisPress watches, with the signals it tracks and the sample opportunities in each.",
-  alternates: { canonical: "/industries" },
+  alternates: { canonical: canonical("industries") },
 };
 
 export default function IndustriesPage() {

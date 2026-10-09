@@ -13,7 +13,7 @@ import { DemoNotice } from "@/components/EmptyState";
 import { OpportunityCard } from "@/components/OpportunityCard";
 import { opportunities, opportunityBySlug } from "@/lib/opportunities";
 import { industries } from "@/lib/industries";
-import { siteName, siteUrl } from "@/lib/brand";
+import { pageMetadata } from "@/lib/metadata";
 
 type Params = { params: Promise<{ slug: string }> };
 
@@ -27,25 +27,12 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   if (!opportunity) {
     return { title: "Opportunity not found" };
   }
-  return {
+  return pageMetadata({
     title: opportunity.name,
     description: opportunity.summary,
-    alternates: { canonical: `/ideas/${opportunity.slug}` },
-    openGraph: {
-      title: `${opportunity.name} — ${siteName}`,
-      description: opportunity.summary,
-      url: `${siteUrl}/ideas/${opportunity.slug}`,
-      type: "article",
-      siteName,
-      images: ["/opengraph-image"],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: `${opportunity.name} — ${siteName}`,
-      description: opportunity.summary,
-      images: ["/opengraph-image"],
-    },
-  };
+    route: `ideas/${opportunity.slug}`,
+    type: "article",
+  });
 }
 
 const summaryText = (slug: string) => {

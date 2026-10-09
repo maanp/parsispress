@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { canonical } from "@/lib/metadata";
 import Link from "next/link";
 import { ArrowRight, BrainCircuit, Compass, ClipboardList, Users } from "lucide-react";
 import { SiteHeader } from "@/components/SiteHeader";
@@ -12,7 +13,7 @@ export const metadata: Metadata = {
   title: "How It Works",
   description:
     "The ParsisPress method: how signals become opportunities, how opportunities are evaluated across six dimensions, and how a founder validates one in two weeks.",
-  alternates: { canonical: "/how-it-works" },
+  alternates: { canonical: canonical("how-it-works") },
 };
 
 const dimensions = [

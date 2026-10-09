@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Fraunces, Inter } from "next/font/google";
 import { description, siteName, siteUrl, tagline } from "@/lib/brand";
+import { asset, canonical } from "@/lib/metadata";
 import "./globals.css";
 
 const editorial = Fraunces({
@@ -35,17 +36,17 @@ export const metadata: Metadata = {
   authors: [{ name: siteName }],
   creator: siteName,
   publisher: siteName,
-  alternates: { canonical: "/" },
+  alternates: { canonical: canonical() },
   openGraph: {
     type: "website",
     siteName,
     locale: "en_US",
-    url: siteUrl,
+    url: canonical(),
     title: `${siteName} — ${tagline}`,
     description,
     images: [
       {
-        url: "/opengraph-image",
+        url: asset("/opengraph-image.png"),
         width: 1200,
         height: 630,
         alt: `${siteName} — ${tagline}`,
@@ -56,7 +57,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: `${siteName} — ${tagline}`,
     description,
-    images: ["/opengraph-image"],
+    images: [asset("/opengraph-image.png")],
   },
   robots: {
     index: true,

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { canonical } from "@/lib/metadata";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { ResearchCard } from "@/components/ResearchCard";
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
   title: "Research",
   description:
     "Editorial notes on startup opportunity discovery: vertical AI, repetitive workflows, defensibility, narrow problems, and validation plans.",
-  alternates: { canonical: "/research" },
+  alternates: { canonical: canonical("research") },
 };
 
 const categories = Array.from(new Set(articles.map((a) => a.category)));

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { canonical } from "@/lib/metadata";
 import Link from "next/link";
 import { ArrowRight, Compass, Layers, ShieldQuestion, Telescope } from "lucide-react";
 import { SiteHeader } from "@/components/SiteHeader";
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
   title: "About",
   description:
     "ParsisPress is an AI-powered opportunity engine: a mission, a set of operating principles, and an honest account of what the product does and does not claim.",
-  alternates: { canonical: "/about" },
+  alternates: { canonical: canonical("about") },
 };
 
 const principles = [

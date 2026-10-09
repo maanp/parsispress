@@ -89,5 +89,18 @@ legal review.
 
 ## Deployment
 
-Not yet deployed. Vercel is the natural target (zero-config Next.js static
-export works as-is). No provider config or credentials are in the repo.
+Static export (`output: "export"`, `trailingSlash: true`, `distDir: out`).
+`.github/workflows/deploy.yml` publishes to GitHub Pages via the official
+Pages actions. Two optional repo variables:
+
+- `NEXT_PUBLIC_BASE_PATH` — `/repo` for a project site, empty for root
+- `NEXT_PUBLIC_SITE_URL` — canonical origin, defaults to parsispress.com
+
+Both were verified against a local static server in root and sub-path layouts.
+
+Icons are static files (`icon.svg`, `apple-icon.png`, `favicon.ico`,
+`opengraph-image.png`) because static export cannot run the ImageResponse
+route. `favicon.ico` is a PNG wrapped in an ICO container.
+
+Placeholders to fix before public launch: `hello@parsispress.com` in the
+footer and legal pages, and `/terms` which needs legal review.

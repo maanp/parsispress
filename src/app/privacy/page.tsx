@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
+import { canonical } from "@/lib/metadata";
 import { LegalPage, type LegalSection } from "@/components/LegalPage";
 
 export const metadata: Metadata = {
   title: "Privacy",
   description:
     "How this ParsisPress demonstration build handles information: no accounts, no tracking, no data collection, and local-only storage.",
-  alternates: { canonical: "/privacy" },
+  alternates: { canonical: canonical("privacy") },
 };
 
 const sections: LegalSection[] = [

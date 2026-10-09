@@ -2,8 +2,22 @@ import type { MetadataRoute } from "next";
 import { opportunities } from "@/lib/opportunities";
 import { articles } from "@/lib/articles";
 import { industries } from "@/lib/industries";
+import { siteUrl } from "@/lib/brand";
 
-const BASE = "https://parsispress.com";
+/**
+ * Required for `output: "export"` — sitemap and robots must be emitted as
+ * static files at build time.
+ */
+export const dynamic = "force-static";
+
+/**
+ * Mirrors next.config.ts: a project site served from /<repo> must include the
+ * prefix in every URL, or crawlers will 404 on every entry.
+ */
+const BASE = `${siteUrl}${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}`.replace(
+  /\/$/,
+  "",
+);
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes: {

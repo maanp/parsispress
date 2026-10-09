@@ -15,7 +15,13 @@ export const brand = {
   clay: "#A4562F",
 } as const;
 
-export const siteUrl = "https://parsispress.com";
+/**
+ * Canonical origin, used for canonical links, Open Graph URLs and the sitemap.
+ * Override with NEXT_PUBLIC_SITE_URL when deploying to a different domain than
+ * parsispress.com (for example a GitHub Pages URL).
+ */
+export const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://parsispress.com";
 export const siteName = "ParsisPress";
 export const tagline = "Find the next big thing. Before everyone else.";
 export const description =

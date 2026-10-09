@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { canonical } from "@/lib/metadata";
 import { Suspense } from "react";
 import { SavedIdeasProvider } from "@/components/SavedIdeasProvider";
 import { SiteHeader } from "@/components/SiteHeader";
@@ -9,7 +10,7 @@ export const metadata: Metadata = {
   title: "Opportunity Explorer",
   description:
     "Search, filter, and sort a demonstration dataset of startup opportunities across seven industry categories. Open any brief for a full research view.",
-  alternates: { canonical: "/ideas" },
+  alternates: { canonical: canonical("ideas") },
 };
 
 export default function IdeasPage() {
